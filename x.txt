@@ -1,0 +1,8 @@
+mysql-生产环境slave只读账号：
+ssh hostname:47.92.192.123
+ssh uername:developer
+ssh private key设置
+mysql hostname:base2
+mysql server port:3307
+username:developer
+password:p8RpIJnFUhnx2oa0

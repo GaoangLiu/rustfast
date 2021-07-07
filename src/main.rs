@@ -1,12 +1,14 @@
 use rustfast::File;
 use std::env;
 use core::fmt::Debug;
+use csv::Error;
+use std::collections::HashMap;
 
 fn say<T: Debug + std::fmt::Display>(text: T){
     File::say(text)
 }
 
-fn main() {
+fn main() -> Result<(), csv::Error> {
     println!("rust fast it!");
     let f = File::read("Cargo.toml");
     println!("{}", f);
@@ -51,4 +53,33 @@ fn main() {
         say(c);
     }
     // 2021-07-06 Line 53
+    let mut hm = HashMap::new();
+    hm.insert("a", 123);
+    let items=vec!["abc", "eft"];
+    let values=vec![10, 20];
+    let _hm2:HashMap<_, _> = items.iter().zip(values.iter()).collect();
+    for (k, v) in &_hm2 {
+        println!("{}, {}", k,v)
+    }
+    for (k, v) in &_hm2 {
+        println!("{}, {}", k,v)
+    }
+    hm.insert("a", 110);
+    println!("{:?}", hm);
+
+    // panic!("crush and burn");
+    // csv reader https://rust-lang-nursery.github.io/rust-cookbook/encoding/csv.html
+    let s = File::read("/Users/slipperl/Downloads/iterget-urls.csv");
+    let mut reader = csv::Reader::from_reader(s.as_bytes());
+    for (i, r) in reader.records().enumerate() {
+        if i == 0 {
+            let r = r?;
+            println!("{:?}", &r);
+            println!("{}", &r[2]);
+            let items:Vec<_> = r[2].split("/").collect();
+            println!("{}", &items.last().unwrap().split(".").collect::<Vec<_>>().first().unwrap());
+        }
+    }
+    // 2021-07-07 Line 86
+    Ok(())
 }
